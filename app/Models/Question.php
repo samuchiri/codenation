@@ -14,4 +14,7 @@ class Question extends Model
     public function answer(){
     	return $this->hasMany('App\Models\Answer','answer_id','id');
     }
+    public function choices(){
+    	return $this->hasMany('App\Models\Choice','question_id','id');
+    }
 }

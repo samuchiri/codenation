@@ -1,3 +1,5 @@
+@extends('layouts.app')
+@section('content')
 <div class="row content-jusify-center">
 	<div class="col-sm-6">
 		<a href="/course/create" class="btn btn-sm btn-success">CREATE</a>
@@ -21,3 +23,4 @@
 		</table>
 	</div>
 </div>
+@endsection

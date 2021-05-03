@@ -1,4 +1,5 @@
-<div class="row content-justify-center">
+@extends('layouts.app')
+@section('content')<div class="row content-justify-center">
 	<div class="col-sm-6">
 		<form action="/page/{{$page->id}}" method="POST">
 			<input type="hidden" name="_method">
@@ -26,3 +27,4 @@
 		</form>
 	</div>
 </div>
+@endsection

@@ -1,4 +1,5 @@
-quiz_id
+@extends('layouts.app')
+@section('content')
 <div class="row content-justify-center">
 	<div class="col-sm-9">
 		<form action="/exam/{{$exam->id}}" method="POST">
@@ -35,3 +36,4 @@ quiz_id
 		</form>
 	</div>
 </div>
+@endsection

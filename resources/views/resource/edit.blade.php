@@ -18,6 +18,8 @@
 					<option value="{{$page->id}}" selected="selected">{{$page->title}}</option>
 					@else
 					<option value="{{$page->id}}">{{$page->title}}</option>
+					@endif
+					@endforeach
 				</select>
 			</div>
 		</form>

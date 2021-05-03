@@ -1,3 +1,5 @@
+@extends('layouts.app')
+@section('content')
 <div class="row content-justify-center">
 	<div class="col-sm-6">
 		<form action="/module/{{$module->id}}" method="POST">
@@ -27,3 +29,4 @@
 		</form>
 	</div>
 </div>
+@endsection

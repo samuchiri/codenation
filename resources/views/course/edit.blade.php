@@ -1,7 +1,9 @@
+@extends('layouts.app')
+@section('content')
 <div class="row content-justify-center">
 	<div class="col-sm-9">
 		<form action="/course/{{$course->id}}" method="POST" enctype="multipart/form-data">
-			<input type="hidden" name="PUT">
+			<input type="hidden" name="_method" value="PUT">
 			<div class="form-group">
 				<label>Name</label>
 
@@ -19,3 +21,4 @@
 		</form>
 	</div>
 </div>
+@endsection

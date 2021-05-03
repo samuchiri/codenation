@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 // });
 Route::resource('/answer','App\Http\Controllers\AnswerController');
 Route::resource('/question','App\Http\Controllers\QuestionController');
+Route::resource('/resource','App\Http\Controllers\ResourceController');
 
 Auth::routes();
 
