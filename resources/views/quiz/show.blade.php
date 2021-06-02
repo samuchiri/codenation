@@ -5,9 +5,9 @@ extends('layouts.app')
 		<table class="table table-bordered">
 				<th>#</th>
 				<tr><th>title</th><td>{{$quiz->title}}</td></tr>
-				<tr><th>duration</th><td>{{$</td></tr>
-				<tr><th>total marks</th><td></td></tr>
-				<tr><th>description</th><td></td></tr>
+				<tr><th>duration</th><td>{{$quiz->duration}}</td></tr>
+				<tr><th>total marks</th><td>{{$quiz->total_marks}}</td></tr>
+				<tr><th>description</th><td>{{$quiz->description}}</td></tr>
 
 		</table>
 		<a href="/quiz/{{$quiz->id}}/edit" class="btn btn-sm btn-sm">EDIT QUIZ</a>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Question;
+use App\Models\Quiz;
 use Illuminate\Http\Request;
 
 class QuestionController extends Controller
@@ -15,7 +16,10 @@ class QuestionController extends Controller
     public function index()
     {
         //
-        return view('question.index');
+        $this->authorize('viewAny' Question::class);
+        $questions=Question::all();
+        $quizzes=Quiz::all();
+        return view('question.index', compact('questions','quizzes'));
     }
 
     /**
@@ -26,7 +30,10 @@ class QuestionController extends Controller
     public function create()
     {
         //
-        return view('question.create');
+        $this->authorize('create' Question::class);
+        // dd('here');
+         $quizzes=Quiz::all();
+        return view('question.create',compact('quizzes'));
     }
 
     /**
@@ -38,8 +45,10 @@ class QuestionController extends Controller
     public function store(Request $request)
     {
         //
+        $this->authorize('create' Question::class);
         $input=$request->all();
         $question=Question::create($input);
+        return redirect('/questions'.$questions->id);
     }
 
     /**
@@ -51,6 +60,7 @@ class QuestionController extends Controller
     public function show(Question $question)
     {
         //
+        $this->authorize('view' Question::class);
         return view('question.show');
     }
 
@@ -63,6 +73,7 @@ class QuestionController extends Controller
     public function edit(Question $question)
     {
         //
+        $this->authorize('update' Question::class);
         return view('question.edit');
     }
 
@@ -76,6 +87,7 @@ class QuestionController extends Controller
     public function update(Request $request, Question $question)
     {
         //
+        $this->authorize('update' Question::class);
         $input=$request->all();
         $question->update($input);
     }
@@ -89,6 +101,7 @@ class QuestionController extends Controller
     public function destroy(Question $question)
     {
         //
+        $this->authorize('delete' Question::class);
         $question->delete();
         return redirect('/question');
     }

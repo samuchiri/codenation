@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Exam;
+use App\Models\Quiz;
+use App\Models\Answer;
 use Illuminate\Http\Request;
 
 class ExamController extends Controller
@@ -15,9 +17,11 @@ class ExamController extends Controller
     public function index()
     {
         //
-        $quiz=Quiz::all();
-        $answer=Answer::all();
-        return view('exam.index', compact('quiz'), compact('answer'));
+        $this->authorize('viewAny' Exam::class);
+        $quizzes =Quiz::all();
+        $answers=Answer::all();
+        $exams=Exam::all();
+        return view('exam.index', compact('quizzes','answers','exams'));
     }
 
     /**
@@ -28,6 +32,7 @@ class ExamController extends Controller
     public function create()
     {
         //
+        $this->authorize('create' Exam::class);
         $quiz=Quiz::all();
         $answer=Answer::all();
         return view('exam.create', compact('quiz'), compact('answer'));
@@ -42,6 +47,7 @@ class ExamController extends Controller
     public function store(Request $request)
     {
         //
+        $this->authorize('create' Exam::class);
         $input=$request->all();
         $exam=Exam::create($input);
         return redirect('/exam/'.$exam->id);
@@ -56,9 +62,10 @@ class ExamController extends Controller
     public function show(Exam $exam)
     {
         //
+        $this->authorize('view' Exam::class);
         $quiz=Quiz::all();
         $answer=Answer::all();
-        return view('exam.show', compact('quiz'), compact('answer'));
+        return view('exam.show', compact('quiz','answer','exam'));
     }
 
     /**
@@ -70,9 +77,10 @@ class ExamController extends Controller
     public function edit(Exam $exam)
     {
         //
+        $this->authorize('update' Exam::class);
         $quiz=Quiz::all();
         $answer=Answer::all();
-        return view('exam.edit' compact('quiz'), compact('answer'));
+        return view('exam.edit',compact('quiz','answer'));
     }
 
     /**
@@ -85,6 +93,7 @@ class ExamController extends Controller
     public function update(Request $request, Exam $exam)
     {
         //
+        $this->authorize('update' Exam::class);
         $input=$request->all();
         $exam->update($input);
         return redirect('exam/'.$exam->id);
@@ -99,6 +108,7 @@ class ExamController extends Controller
     public function destroy(Exam $exam)
     {
         //
+        $this->authorize('delete' Exam::class);
         $exam->delete();
         return redirect('/exam');
     }

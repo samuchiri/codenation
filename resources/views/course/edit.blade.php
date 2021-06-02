@@ -3,21 +3,23 @@
 <div class="row content-justify-center">
 	<div class="col-sm-9">
 		<form action="/course/{{$course->id}}" method="POST" enctype="multipart/form-data">
+			@csrf
 			<input type="hidden" name="_method" value="PUT">
 			<div class="form-group">
 				<label>Name</label>
 
-				<input  class="form-control" type="text" name="name" value="{{old('name')}}">
+				<input  class="form-control" type="text" name="name" value="{{$course->name}}">
 			</div>
 			<div class="form-group">
 				<label>Description</label>
-				<input  class="form-control" type="text" name="description" value="{{old('description')}}">
+				<input  class="form-control" type="text" name="description" value="{{$course->description}}">
 			</div>
 			<div class="form-group">
 				<label>Image</label>
-				<input  class="form-control" type="file" name="image" value="{{old('image')}}">
+				<input  class="form-control" type="file" name="image" value="{{$course->image}}">
 			</div>
-			<input type="button" name="submit" value="Update">
+			
+			<button class="btn btn-sm btn-success" type="submit">update</button>
 		</form>
 	</div>
 </div>

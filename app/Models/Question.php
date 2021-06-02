@@ -12,7 +12,9 @@ class Question extends Model
     protected $fillable=['quiz_id','student','type','answer'];
 
     public function answer(){
-    	return $this->hasMany('App\Models\Answer','answer_id','id');
+    	return $this->hasMany('App\Models\Answer','question_id','id');
+    	// We are in the question model. Thus, question is "called" question_id in the answers Model. If the relation is hasMany, we use the plural form eg answers
+
     }
     public function choices(){
     	return $this->hasMany('App\Models\Choice','question_id','id');

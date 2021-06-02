@@ -7,7 +7,7 @@
 			<table class="table table-bordered">
 				<thead>
 					<tr>
-						<th>#</th>
+						<!-- <th>#</th> -->
 						<th>title</th>
 						<th>description</th>
 						<th>duration</th>
@@ -15,13 +15,15 @@
 					</tr>
 				</thead>
 				<tbody>
+					@foreach($quizzes as $quiz)
 					<tr>
-						<td>{{$quiz->id}}</td>
+						<!-- <td>{{$quiz->id}}</td> -->
 						<td>{{$quiz->title}}</td>
 						<td>{{$quiz->description}}</td>
 						<td>{{$quiz->duration}}</td>
 						<td>{{$quiz->total_marks}}</td>
 					</tr>
+					@endforeach
 				</tbody>
 			</table>
 		</div>

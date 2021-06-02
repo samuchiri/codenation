@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Page;
+use App\Models\Quiz;
+use App\Models\Module;
 use Illuminate\Http\Request;
 
 class PageController extends Controller
@@ -15,9 +17,11 @@ class PageController extends Controller
     public function index()
     {
         //
-        $module=Module::all();
-        $quiz=Quiz::all();
-        return view('page.index',compact('module'), compact('quiz'));
+        $this->authorize('viewAny' Page::class);
+        $modules=Module::all();
+        $quizzes=Quiz::all();
+        $pages=Page::all();
+        return view('page.index',compact('modules','quizzes','pages'));
     }
 
     /**
@@ -28,9 +32,10 @@ class PageController extends Controller
     public function create()
     {
         //
-        $module=Module::all();
-        $quiz=Quiz::all();
-        return view('page.create' compact('module'), compact('quiz'));
+        $this->authorize('create' Page::class);
+        $modules=Module::all();
+        $quizzes=Quiz::all();
+        return view('page.create',compact('modules','quizzes'));
     }
 
     /**
@@ -42,6 +47,7 @@ class PageController extends Controller
     public function store(Request $request)
     {
         //
+        $this->authorize('create' Page::class);
         $input=$request->all();
         $page=Page::create($input);
         return redirect('/page/'.$page->id);
@@ -56,10 +62,11 @@ class PageController extends Controller
     public function show(Page $page)
     {
         //
-        $module=Module::all();
-        $quiz=Quiz::all();
+        $this->authorize('view' Page::class);
+        $modules=Module::all();
+        $quizzes=Quiz::all();
 
-        return view('page.show', compact('module'), compact('quiz'));
+        return view('page.show', compact('modules','quizzes','page'));
     }
 
     /**
@@ -71,9 +78,10 @@ class PageController extends Controller
     public function edit(Page $page)
     {
         //
-        $module=Module::all();
+        $this->authorize('update' Page::class);
+        $modules=Module::all();
         $quiz=Quiz::all();
-        return view('page.edit', compact('module'), compact('quiz'));
+        return view('page.edit', compact('modules','quiz','page'));
     }
 
     /**
@@ -86,6 +94,7 @@ class PageController extends Controller
     public function update(Request $request, Page $page)
     {
         //
+        $this->authorize('update' Page::class);
         $input=$request->all();
         $page->update($input);
         return redirect('page/'.$page->id);
@@ -100,6 +109,7 @@ class PageController extends Controller
     public function destroy(Page $page)
     {
         //
+        $this->authorize('delete' Page::class);
         $page->delete();
         return redirect('/page');
     }

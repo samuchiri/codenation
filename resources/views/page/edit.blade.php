@@ -9,16 +9,16 @@
 			</div>
 			<div class="form-group">
 				<label>order</label>
-				<input type="text" name="order" class="form-control" value="{{$page->order">
+				<input type="text" name="order" class="form-control" value="{{$page->order}}">
 			</div>
 			<div class="form-group">
 				<label>module</label>
 				<select class="form-select" name="module_id">
 					@foreach($modules as $module)
-					@if($module->id==$page->module->id)
-					<option value="{{$module->id}}" selected="selected">{{$module->id}}</option>
+					@if($module->id == $page->module_id)
+					<option value="{{$module->id}}" selected="selected">{{$module->title}}</option>
 					@else
-					<option value="{{module->id}}">{{$module->title}}</option>
+					<option value="{{$module->id}}">{{$module->title}}</option>
 					@endif
 					@endforeach
 				</select>

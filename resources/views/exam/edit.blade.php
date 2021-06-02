@@ -3,6 +3,7 @@
 <div class="row content-justify-center">
 	<div class="col-sm-9">
 		<form action="/exam/{{$exam->id}}" method="POST">
+			@csrf
 			<input type="hidden" name="_method" value="PUT">
 			<div class="form-group">
 				<label>student</label>

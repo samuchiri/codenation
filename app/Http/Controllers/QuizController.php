@@ -15,7 +15,9 @@ class QuizController extends Controller
     public function index()
     {
         //
-        return view('quiz.index');
+        $this->authorize('viewAny' Quiz::class);
+        $quizzes=Quiz::all();
+        return view('quiz.index',compact('quizzes'));
     }
 
     /**
@@ -26,7 +28,9 @@ class QuizController extends Controller
     public function create()
     {
         //
-        return view('quiz.create');
+        $this->authorize('create' Quiz::class);
+        $quizzes=Quiz::all();
+        return view('quiz.create',compact('quizzes'));
     }
 
     /**
@@ -38,6 +42,7 @@ class QuizController extends Controller
     public function store(Request $request)
     {
         //
+        $this->authorize('create' Quiz::class);
         $input=$request->all();
         $quiz=Quiz::create('$input');
         return redirect('/quiz/'.$quiz->id);
@@ -52,6 +57,7 @@ class QuizController extends Controller
     public function show(Quiz $quiz)
     {
         //
+        $this->authorize('view' Quiz::class);
         return view('quiz.show');
     }
 
@@ -64,6 +70,7 @@ class QuizController extends Controller
     public function edit(Quiz $quiz)
     {
         //
+        $this->authorize('update' Quiz::class);
         return view('quiz.edit');
     }
 
@@ -77,6 +84,7 @@ class QuizController extends Controller
     public function update(Request $request, Quiz $quiz)
     {
         //
+        $this->authorize('update' Quiz::class);
         $input=$request->all();
         $quiz->update($input);
         return redirect('quiz/'.$quiz->id);
@@ -91,6 +99,7 @@ class QuizController extends Controller
     public function destroy(Quiz $quiz)
     {
         //
+        $this->authorize('delete' Quiz::class);
         $quiz->delete();
         return redirect('/quiz');
     }

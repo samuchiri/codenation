@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role; 
+use Hash;
 
 class UserController extends Controller
 {
@@ -14,8 +18,13 @@ class UserController extends Controller
     public function index()
     {
         //
-        $role=Role::all();
-        return view('user.index',compact('role'));
+        // $this->authorize('viewAny', User::class);
+        $users = User::all();
+        // helps us to pull data from the database to the interface using Eloquent ORM
+        $role = Role::all();
+        // helps us to pull data from the database to the interface using Eloquent ORM
+
+        return view('user.index', compact('users','role'));
     }
 
     /**
@@ -26,8 +35,9 @@ class UserController extends Controller
     public function create()
     {
         //
-        $role=Role::all();
-        return view('user.create', compact('role')
+          // $this->authorize('create', User::class);
+         $roles = Role::all();
+        return view('user.create',compact('roles'));
     }
 
     /**
@@ -38,10 +48,13 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        $input=$request->all;
-        $user->create($input);
-        return redirect('/user'.$user->id);
+       
+        $input=$request->all();
+        $input['password']=Hash::make($input['password']);
+        $user=User::create($input);
+        $user->syncPermissions($request->input('permissions'));
+        return redirect('/user/'.$user->id);
+
     }
 
     /**
@@ -50,11 +63,12 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(User $user)
     {
         //
-        $role=Role::all();
-        return view('user.show',compact('role'));
+         $permissions=Permission::all();
+        return view('user.show', compact('user','permissions'));
+          // $this->authorize('view', $user);
     }
 
     /**
@@ -63,11 +77,13 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $user)
     {
         //
-        $role=Role::all();
-        return view('user.edit', compact('role'));
+        $permissions=Permission::all();
+        // we compact permissions coz when we want to edit a user, we also want to create NEW permissions
+        $roles=Role::all();
+        return view('user.edit', compact('user','permissions','roles'));
     }
 
     /**
@@ -77,13 +93,21 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+     public function update(Request $request, User $user)
     {
         //
+   
         $input=$request->all();
+        if(!empty($input['password'])){
+            $input['password']=Hash::make($input['password']);
+        }else{
+            unset($input['password']);
+        }
         $user->update($input);
-        return redirect('/user'.$user->id);
+        $user->syncPermissions($request->input('permissions'));
+        return redirect('/user/'.$user->id);
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -94,7 +118,5 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
-        $user->delete();
-        return redirect('/user');
     }
 }

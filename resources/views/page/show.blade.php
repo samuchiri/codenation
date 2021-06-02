@@ -3,12 +3,12 @@
 <div class="row content-justify-center">
 	<div class="col-sm-6">
 		<table class="table table-bordered">
-				<th>#</th>
-				<tr>module<th></th><td>{{$page->module->title}}</td></tr>
-				<tr>title<th></th><td>{{$page->title}}</td></tr>
-				<tr>notes<th></th><td>{{$page->notes}}</td></tr>
-				<tr>order<th></th><td>{{$page->order}}</td></tr>
-				<tr>quiz<th></th><td>{{$page->quiz->title}}</td></tr>
+				
+				<tr><th>module</th><td>{{$page->module->title}}</td></tr>
+				<tr><th>title</th><td>{{$page->title}}</td></tr>
+				<tr><th>notes</th><td>{{$page->notes}}</td></tr>
+				<tr><th>order</th><td>{{$page->order}}</td></tr>
+				<tr><th>quiz</th><td>{{$page->quiz->title}}</td></tr>
 		</table>
 		<div class="btn btn-group">
 			<a href="/page/{{$page->id}}/edit" class=" btn btn-sm btn-success">EDIT PAGE</a>

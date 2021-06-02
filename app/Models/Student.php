@@ -8,14 +8,20 @@ use Illuminate\Database\Eloquent\Model;
 class Student extends Model
 {
     use HasFactory;
-    protected $table='students';
-    protected $fillable=['id''reg_no,''user_id'];
+   
+    protected $fillable=['id','reg_no','user_id'];
 
     public function user(){
-    	return $this->hasOne('App\Models\User','id','user_id');
+    	return $this->hasOne('App\Models\User','id','user_id')->withDefault(['name'=>'Deleted']);
     }
 
-    public function StudentCourse(){
-    	return $this->hasMany('App\Models\StudentCourse','id','StudentCourse_id');
+    public function studentCourse(){
+    	return $this->hasMany('App\Models\StudentCourse','student_id','id');
+    }
+    public function fees(){
+    	return $this->hasMany('App\Models\Fee','student_id','id');
+    }
+    public function payments(){
+    	return $this->hasMany('App\Models\Payment','student_id','id');
     }
 }

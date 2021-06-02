@@ -19,7 +19,7 @@ class AnswerController extends Controller
     {
         //
 
-        
+        $this->authorize('viewAny' Answer::class);
         $questions=Question::all();
         $exams=Exam::all();
         $answers= Answer::orderBy('created_at','desc')->paginate(2);
@@ -35,6 +35,7 @@ class AnswerController extends Controller
     public function create()
     {
         //
+        $this->authorize('create' Answer::class);
         return view('AnswerController.create', compact('exam'));
     }
 
@@ -48,7 +49,7 @@ class AnswerController extends Controller
     {
         //
         
-
+        $this->authorize('create' Answer::class);
         $input=$request->all();
         $answer=Answer::create($input);
         return redirect('/answer/'.$answer->id);
@@ -63,6 +64,7 @@ class AnswerController extends Controller
     public function show(Answer $answer)
     {
         //
+        $this->authorize('view' Answer::class);
         $answers=Answer::all();
         return view('answer.show', compact('answer'), compact('exam'));
     }
@@ -76,6 +78,7 @@ class AnswerController extends Controller
     public function edit(Answer $answer)
     {
         //
+        $this->authorize('update' Answer::class);
         $answer=Answer::all();
         return view('AnswerController.edit',compact('answer'), compact('exam'));
     }
@@ -90,6 +93,7 @@ class AnswerController extends Controller
     public function update(Request $request, Answer $answer)
     {
         //
+        $this->authorize('update' Answer::class);
         $answer=Answer::find($id);
         $input=$request->all();
         $answer->update($input);
@@ -105,6 +109,7 @@ class AnswerController extends Controller
     public function destroy(Answer $answer)
     {
         //
+        $this->authorize('delete' Answer::class);
         $answer->delete();
         return redirect('/answer');
     }

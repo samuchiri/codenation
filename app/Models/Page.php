@@ -12,10 +12,11 @@ class Page extends Model
     protected $fillable=['module_id','title','notes','order','quiz_id'];
 
     public function module(){
-    	return $this->hasOne('App\Models\Module','id','module_id');
+    	return $this->hasOne('App\Models\Module','id','module_id')->withDefault(['name'=>'Deleted']);
+    }	
 
     public function quiz(){
-    	return $this->hasOne('App\Models\Quiz','id','quiz_id');
+    	return $this->hasOne('App\Models\Quiz','id','quiz_id')->withDefault(['name'=>'Deleted']);
     }
-    }
+    
 }

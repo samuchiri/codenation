@@ -12,11 +12,13 @@
 				</tr>
 			</thead>
 			<tbody>
+				@foreach($modules as $module)
 				<tr>
-					<td>{{$module->course}}</td>
+					<td>{{$module->$course->name}}</td>
 					<td>{{$module->title}}</td>
 					<td>{{$module->description}}</td>
 				</tr>
+				@endforeach
 			</tbody>
 		</table>
 	</div>

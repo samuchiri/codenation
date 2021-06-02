@@ -14,14 +14,16 @@
 				</tr>
 			</thead>
 			<tbody>
+				@foreach($pages as $page)
 				<tr>
-					<td>{{$page->module}}</td>
+					<td>{{$page->module->title}}</td>
 					<td>{{$page->title}}</td>
 					<td>{{$page->notes}}</td>
 					<td>{{$page->order}}</td>
-					<td>{{$page->quiz}}</td>
+					<td>{{$page->quiz->title}}</td>
 					<td><a href="/page/{{$page->id}}" class="btn btn-sm btn-success">VIEW</a></td>
 				</tr>
+				@endforeach
 			</tbody>
 		</table>
 	</div>

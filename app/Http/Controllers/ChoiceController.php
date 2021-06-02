@@ -15,8 +15,9 @@ class ChoiceController extends Controller
     public function index()
     {
         //
+        $this->authorize('viewAny' Choice::class);
         $questions=Question::all();
-        return view('choice.index', compact('question'));
+        return view('choice.index', compact('questions'));
     }
 
     /**
@@ -27,6 +28,7 @@ class ChoiceController extends Controller
     public function create()
     {
         //
+        $this->authorize('create' Choice::class);
         $question=Question::all();
         return view('choice.create', compact('question'));
     }
@@ -40,7 +42,7 @@ class ChoiceController extends Controller
     public function store(Request $request)
     {
         //
-       
+        $this->authorize('create' Choice::class);
         $input=$request->all();
         $resources=Resource::create($input);
         return redirect('/choice/'.$choice->id);
@@ -55,6 +57,7 @@ class ChoiceController extends Controller
     public function show(Choice $choice)
     {
         //
+        $this->authorize('view' Choice::class);
         $question=Question::all();
         return view('choice.show', compact('question'));
     }
@@ -68,6 +71,7 @@ class ChoiceController extends Controller
     public function edit(Choice $choice)
     {
         //
+        $this->authorize('update' Choice::class);
         $question=Question::all();
         return view('choice.edit',compact('question'));
     }
@@ -82,7 +86,7 @@ class ChoiceController extends Controller
     public function update(Request $request, Choice $choice)
     {
         //
-       
+        $this->authorize('update' Choice::class);
         $input=$request->all();
         $choice->update($input);
         return redirect('choice/'.$choices->id);
@@ -97,6 +101,7 @@ class ChoiceController extends Controller
     public function destroy(Choice $choice)
     {
         //
+        $this->authorize('delete' Choice::class);
         $choice->delete();
         return redirect('/choice');
     }

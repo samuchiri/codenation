@@ -9,5 +9,10 @@ class Quiz extends Model
 {
     use HasFactory;
     protected $table='quizzes';
-    protected $fillable=['id','title','description','duration','total_marks']
+    protected $fillable=['id','title','description','duration','total_marks'];
+
+
+    public function exam(){
+    	return $this->hasMany('App\Model\exam','quiz_id','id');
+    }
 }

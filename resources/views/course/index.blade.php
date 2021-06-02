@@ -15,7 +15,7 @@
 				@foreach($courses as $course)
 				<tr>
 					<td>{{$course->name}}</td>
-					<td>{{$course->description</td>
+					<td>{{$course->description}}</td>
 					<td>{{$course->image}}</td>
 				</tr>
 				@endforeach
