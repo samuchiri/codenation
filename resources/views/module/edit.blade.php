@@ -1,3 +1,5 @@
+@extends('layouts.app')
+@section('content')
 <div class="row content-justify-center">
 	<div class="col-sm-6">
 		<form action="/module/{{$module->id}}" method="POST">
@@ -15,7 +17,7 @@
 				<select class="form-select" name="course_id">
 					@foreach($courses as $course)
 					@if($course->id==$module->course_id)
-					<option value="{{$module->id}}" name="course_id">{{$course-title}}</option>
+					<option value="{{$module->id}}" selected="selected">{{$course-title}}</option>
 					@else
 					<option value="{{$module->id}}">{{course->title></option>
 					@endif
@@ -27,3 +29,4 @@
 		</form>
 	</div>
 </div>
+@endsection

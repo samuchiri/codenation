@@ -8,10 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Resource extends Model
 {
     use HasFactory;
-    protected $table='resource';
-    protected $fillable=['id''page_id''type''title''description''url'];
+    protected $table='resources';
+    protected $fillable=['id','page_id','type','title','description','url'];
 
     public function page(){
-    	return $this->hasOne('App\Models\Page','id','page_id');
+    	return $this->hasOne('App\Models\Page','id','page_id')->withDefault(['name'=>'Deleted']);
     }
 }

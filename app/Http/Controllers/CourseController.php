@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\course;
+use App\Models\Course;
 use Illuminate\Http\Request;
+use App\Http\Resources\CourseResource;
+
 
 class CourseController extends Controller
 {
@@ -15,7 +17,10 @@ class CourseController extends Controller
     public function index()
     {
         //
-        return view('course.index');
+
+        $this->authorize('viewAny', Course::class);
+        $courses=Course::all();
+        return response(['course'=>CourseResource::collection($courses),'message'=>'Retrieved successfully']);
     }
 
     /**
@@ -26,6 +31,7 @@ class CourseController extends Controller
     public function create()
     {
         //
+        $this->authorize('create', Course::class);
         return view('course.create');
     }
 
@@ -38,10 +44,31 @@ class CourseController extends Controller
     public function store(Request $request)
     {
         //
+        $this->authorize('create', Course::class);
         $input=$request->all();
+         // ADDING IMAGE::::
+        $image1=$request->file('image1');
+        if(isset($image)){
+            $input['image']='storage/app/'.$request->file('image1')->store('uploads');
+        }
+        // 
+        // the image name in $input['image'] must be the same with the image name on the model
+        $validator = Validator::make($input, [
+
+            'name'=>'required',
+            'description'=>'required',
+            'image'=>'required',
+        ]);
+                if($validator->fails()){
+                    return response(['error'=> $validator->errors(), 'Validation Error']);
+                }
         $course=Course::create($input);
         return redirect('/course/'.$course->id);
-    }
+       
+
+   
+}
+// 
 
     /**
      * Display the specified resource.
@@ -49,11 +76,11 @@ class CourseController extends Controller
      * @param  \App\Models\course  $course
      * @return \Illuminate\Http\Response
      */
-    public function show(course $course)
+    public function show(Course $course)
     {
         //
-        $course=Course::all();
-        return view('course.show');
+        // $this->authorize('view' Course::class);
+        return view('course.show',compact('course'));
     }
 
     /**
@@ -62,11 +89,11 @@ class CourseController extends Controller
      * @param  \App\Models\course  $course
      * @return \Illuminate\Http\Response
      */
-    public function edit(course $course)
+    public function edit(Course $course)
     {
         //
-        $course=Course::all();
-        return view('course.edit');
+        $this->authorize('update', Course::class);
+        return view('course.edit',compact('course'));
     }
 
     /**
@@ -76,9 +103,10 @@ class CourseController extends Controller
      * @param  \App\Models\course  $course
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, course $course)
+    public function update(Request $request, Course $course)
     {
         //
+        $this->authorize('update', Course::class);
         $input=$request->all();
         $course->update($input);
         return redirect('course/'.$course->id);
@@ -90,9 +118,10 @@ class CourseController extends Controller
      * @param  \App\Models\course  $course
      * @return \Illuminate\Http\Response
      */
-    public function destroy(course $course)
+    public function destroy(Course $course)
     {
         //
+        $this->authorize('delete', Course::class);
         $course->delete();
         return redirect('/course');
     }

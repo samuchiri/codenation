@@ -1,0 +1,47 @@
+/*.sidebar{
+	width: 200px;
+	height: 100vh;
+	float: left;
+	background-color: green;
+	display: block;
+}*/
+
+.body{
+	font-family: 'Abril Fatface', cursive;
+}
+.sidebar {
+    width: 200px;
+    height: 100vh;
+    float: left;
+    background-color: #402e52;
+    display: block;
+}
+.cont{
+	width: calc(100% - 200px);
+	height: 100vh;
+	float: left;
+	padding: 10px;
+}
+.sidebar ul li a{
+	color: #FFF;
+	font-weight: 600;
+	padding: 10px;
+	text-decoration: none;
+	display: block;
+	width: 100%;
+	transition:ease-in-out .5s;
+}
+.sidebar ul li a:hover{
+	background-color: #FFF;
+	color: blue;
+	transition:ease-in-out .5s;
+}
+.sidebar ul li{
+	list-style: none;
+}
+.sidebar {
+    width: 200px;
+    height: 100vh;
+    float: left;
+    background-color: #402e52;
+    display: block;

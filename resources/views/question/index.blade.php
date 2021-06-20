@@ -13,10 +13,10 @@
 				</tr>
 			</thead>
 			<tbody>
-				@foreach ($questions as $question)
+				@foreach($questions as $question)
 				<tr>
 					<td>{{$question->quiz}}</td>
-					<td>{{$question->student</td>
+					<td>{{$question->student}}</td>
 					<td>{{$question->type}}</td>
 					<td>{{$question->answer}}</td>
 				</tr>

@@ -12,11 +12,11 @@ class StudentCourse extends Model
     protected $fillable= ['id','course_id','student_id'];
 
     public function student(){
-    	return $this->hasOne('App\Models\Student','id','student_id');
+    	return $this->hasOne('App\Models\Student','id','student_id')->withDefault(['name'=>'Deleted']);
     }
 
     public function course(){
-    	return $this->hasOne('App\Models\Course','id','course_id');
+    	return $this->hasOne('App\Models\Course','id','course_id')->withDefault(['name'=>'Deleted']);
     }
 
  

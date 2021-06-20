@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Page;
+use App\Models\Quiz;
+use App\Models\Module;
 use Illuminate\Http\Request;
+use App\Http\Resources\PageResources;
 
 class PageController extends Controller
 {
@@ -15,9 +18,11 @@ class PageController extends Controller
     public function index()
     {
         //
-        $module=Module::all();
-        $quiz=Quiz::all();
-        return view('page.index',compact('module'), compact('quiz'));
+        $this->authorize('viewAny', Page::class);
+        $modules=Module::all();
+        $quizzes=Quiz::all();
+        $pages=Page::all();
+        return response(['user' => UserResource::collection($user), 'message' => 'Retrieved successfully']);
     }
 
     /**
@@ -28,9 +33,10 @@ class PageController extends Controller
     public function create()
     {
         //
-        $module=Module::all();
-        $quiz=Quiz::all();
-        return view('page.create' compact('module'), compact('quiz'));
+        $this->authorize('create', Page::class);
+        $modules=Module::all();
+        $quizzes=Quiz::all();
+        return view('page.create',compact('modules','quizzes'));
     }
 
     /**
@@ -42,10 +48,23 @@ class PageController extends Controller
     public function store(Request $request)
     {
         //
-        $input=$request->all();
+        $this->authorize('create', Page::class);
+        
+        $validator=Validator::make($input,[
+            'module_id'=>'required',
+            'title'=>'required',
+            'notes'=>'required',
+            'order'=>'required',
+            'quiz_id'=>'required',
+        ]);
+                if($validator->fails()){
+                    return response(['error'=>$validator->errors(), 'Validator Error']);
+         }
+         $input=$request->all();
         $page=Page::create($input);
+        $module=Module::create($input);        
         return redirect('/page/'.$page->id);
-    }
+
 
     /**
      * Display the specified resource.
@@ -53,13 +72,15 @@ class PageController extends Controller
      * @param  \App\Models\Page  $page
      * @return \Illuminate\Http\Response
      */
+    }
     public function show(Page $page)
     {
         //
-        $module=Module::all();
-        $quiz=Quiz::all();
+        $this->authorize('view', Page::class);
+        $modules=Module::all();
+        $quizzes=Quiz::all();
 
-        return view('page.show', compact('module'), compact('quiz'));
+        return view('page.show', compact('modules','quizzes','page'));
     }
 
     /**
@@ -71,9 +92,10 @@ class PageController extends Controller
     public function edit(Page $page)
     {
         //
-        $module=Module::all();
+        $this->authorize('update', Page::class);
+        $modules=Module::all();
         $quiz=Quiz::all();
-        return view('page.edit', compact('module'), compact('quiz'));
+        return view('page.edit', compact('modules','quiz','page'));
     }
 
     /**
@@ -86,6 +108,7 @@ class PageController extends Controller
     public function update(Request $request, Page $page)
     {
         //
+        $this->authorize('update', Page::class);
         $input=$request->all();
         $page->update($input);
         return redirect('page/'.$page->id);
@@ -100,6 +123,7 @@ class PageController extends Controller
     public function destroy(Page $page)
     {
         //
+        $this->authorize('delete', Page::class);
         $page->delete();
         return redirect('/page');
     }

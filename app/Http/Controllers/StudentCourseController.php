@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\StudentCourse;
+use App\Models\Course;
+use App\Models\Student;
+use App\Http\Resources\StudentCourseResource;
 use Illuminate\Http\Request;
 
 class StudentCourseController extends Controller
@@ -14,10 +17,15 @@ class StudentCourseController extends Controller
      */
     public function index()
     {
-        //
-        $course=Course::all();
-        $student=Student::all();
-        return view('StudentCourse.index',compact('course'),compact('student'));
+        //        return response(['user' => UserResource::collection($user), 'message' => 'Retrieved successfully']);
+
+        $this->authorize('viewAny', StudentCourse::class);
+        $courses=Course::all();
+          // dd($courses);
+        $students=Student::all();
+        $studentcourses=StudentCourse::all();
+        return response(['student'=>StudentResource::collection($student),'message'=>'Retrieved successfully']);
+
     }
 
     /**
@@ -28,9 +36,12 @@ class StudentCourseController extends Controller
     public function create()
     {
         //
-        $course=Course::all();
-        $student=Student::all();
-        return view('StudentCourse.create',compact('course'),compact('student'));
+        $this->authorize('create', StudentCourse::class);
+        $courses=Course::all();
+        // dd('hehehee');
+        $students=Student::all();
+        $studentcourse=StudentCourse::all();
+        return view('StudentCourse.create',compact('courses','students'));
     }
 
     /**
@@ -42,8 +53,16 @@ class StudentCourseController extends Controller
     public function store(Request $request)
     {
         //
+        $this->authorize('create', StudentCourse::class);
         $input=$request->all();
         $StudentCourse->create($input);
+        $validator=Validator::make($input,[
+            'student_id'=>'required',
+            'course_id'=>'required',
+        ]);
+            if($validator->fails()){
+                return response(['error'=>$validator->errors(), 'Validator Error']);
+            }
         return redirect('/StudentCourse'.$studentCourse->id);
     }
 
@@ -56,9 +75,10 @@ class StudentCourseController extends Controller
     public function show(StudentCourse $studentCourse)
     {
         //
-        $student=Student::all();
-        $course=Course::all();
-        return view('StudentCourse.show'compact('course'),compact('student'));
+        $this->authorize('view', StudentCourse::class);
+        $students=Student::all();
+        $courses=Course::all();
+        return view('StudentCourse.show',compact('courses','students'));
     }
 
     /**
@@ -70,9 +90,10 @@ class StudentCourseController extends Controller
     public function edit(StudentCourse $studentCourse)
     {
         //
-        $course=Course::all();
-        $student=Student::all();
-        return view('StudentCourse.edit',compact('course'),compact('student'));
+        $this->authorize('update', StudentCourse::class);
+        $courses=Course::all();
+        $students=Student::all();
+        return view('StudentCourse.edit',compact('courses','students'));
     }
 
     /**
@@ -85,6 +106,7 @@ class StudentCourseController extends Controller
     public function update(Request $request, StudentCourse $studentCourse)
     {
         //
+        $this->authorize('update', StudentCourse::class);
         $input=$request->all();
         $studentcourse->update($input);
         return redirect('/StudentCourse'.$studentcourse->id);
@@ -99,6 +121,7 @@ class StudentCourseController extends Controller
     public function destroy(StudentCourse $studentCourse)
     {
         //
+        $this->authorize('delete', StudentCourse::class);
         $studentcourse->delete();
         return redirect('/StudentCourse');
     }

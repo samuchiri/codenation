@@ -1,3 +1,5 @@
+@extends('layouts.app')
+@section('content')
 <div class="row content-justify-center">
 	<div class="col-sm-6">
 		<a href="/exam/create" class="btn btn-sm btn-success">CREATE</a>
@@ -19,9 +21,9 @@
 				@foreach($exams as $exam)
 				<tr>
 					<td>{{$exam->quiz}}</td>
-					<td>{{$exam->student->name}}</td>
+					<td>{{$exam->student}}</td>
 					<td>{{$exam->marks}}</td>
-					<td>{{exam->grade}}</td>
+					<td>{{$exam->grade}}</td>
 					<td>{{$exam->out_of}}</td>
 					<td>{{$exam->date_taken}}</td>
 					<td>{{$exam->date_computed}}</td>
@@ -33,3 +35,4 @@
 		</table>
 	</div>
 </div>
+@endsection

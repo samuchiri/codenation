@@ -12,6 +12,6 @@ class Module extends Model
     protected $fillable=['course_id','title','description'];
 
     public function course(){
-    	return $this->hasOne('App\Models\Course','id','course_id');
+    	return $this->hasOne('App\Models\Course','id','course_id')->withDefault(['name'=>'Deleted']);
     }
 }

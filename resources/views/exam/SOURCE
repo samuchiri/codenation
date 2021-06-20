@@ -1,0 +1,606 @@
+SOURCE
+create
+<form action="/source" method="POST">
+@csrf
+ <div class="form-group">
+ <label>Name</label>
+ <input type="text" name="source" class="form-control">
+ <div class="form-group">
+ <label>Bio</label>
+ <input type="text" name="bio" class="form-control">
+ <div class="form-group">
+ <label>Status</label>
+ <input type="text" name="status" class="form-control">
+ </div>
+ <div class="form-group">
+ <label>Title</label>
+ <input type="text" name="title" class="form-control">
+<div class="form-group">
+ <label>Company</label>
+ <input type="text" name="company" class="form-control">
+</form>
+
+edit
+<form action="/source/{{$source->id}}" method="POST">
+@method('PUT')
+@csrf
+ <div class="form-group">
+ <label>Name</label>
+ <input type="text" name="name" class="form-control" value="{{$source->name}}">
+ <div class="form-group">
+ <label>Bio</label>
+ <input type="text" name="bio" class="form-control" value="{{$source->name}}">
+ <div class="form-group">
+ <label>Status</label>
+ <input type="text" name="status" class="form-control" value="{{$source->name}}">
+ </div>
+ <div class="form-group">
+ <label>Title</label>
+ <input type="text" name="title" class="form-control" value="{{$source->name}}">
+<div class="form-group">
+ <label>Company</label>
+ <input type="text" name="company" class="form-control" value="{{$source->name}}">
+</form>
+
+show
+<table class="table table-bordered">
+ <tbody>
+ <tr><th>Name</th><td>{{$source->name}}</td></tr>
+ <tr><th>Bio</th><td>{{$source->bio}}</td></tr>
+ <tr><th>Status</th><td>{{$source->status}}</td></tr>
+ <tr><th>Title</th><td>{{$source->title}}</td></tr>
+ <tr><th>Company</th><td>{{$source->company}}</td></tr>
+  <div class="btn btn-group">
+   <a href="/source/{{$source->id}}/edit" class="btn btn-sm btn-info">Edit</a>
+   <form action="/source/{{$source->id}}" method="POST">Delete</a>
+   @csrf
+   <input type="hidden" name="_method" value="DELETE">
+   <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+  </div>
+ </tbody>
+</table>
+
+index
+<div class="row content-justify-center">
+ <div class="col-sm-6">
+  <a href="/source/create" class="btn btn-sm btn-success">CREATE</a>
+  <table class="table table-bordered">
+  <thead>
+   <tr>
+    <th>Name</th>
+    <th>Bio</th>
+    <th>Status</th>
+    <th>Title</th>
+    <th>Company</th>
+   </tr>
+  </thead>
+  <tbody>
+  @foreach($sources as $source)
+  <tr>
+  <td>{{$source->name}}</td>
+  <td>{{$source->bio}}</td>
+  <td>{{$source->status}}</td>
+  <td>{{$source->title}}</td>
+  <td>{{$source->company}}</td>
+  <td><a href="/source/{{$source->id}}" class="btn btn-sm btn-success">VIEW</a>
+  @endforeach
+  </tr>
+  </tbody>
+  </table>
+
+ </div>
+</div>
+
+
+PAYMENT
+create
+<div class="row content-justify-center">
+ <div class="col-sm-6">
+  <form action="/payment" method="POST">
+  @csrf
+   <div class="form-group">
+   <label>Channel</label>
+   <input type="text" name="channel" class="form-control">
+   <div class="form-group">
+   <label>Date</label>
+   <input type="text" name="date" class="form-control">
+   <div class="form-group">
+   <label>User</label>
+   <select class="form-select" name="user_id">
+   <option value="{{$user->id}}">{{$user->name}}</option>
+   </select>
+   
+  </form>
+ </div>
+</div>
+
+index
+<div class="row content-justify-center">
+ <div class="col-sm-6">
+  <a href="/payment/create" class="btn btn-sm btn-success">Create</a>
+  <table="table table-bordered">
+   <thead>
+    <tr>
+    <th>Channel</th>
+    <th>Date</th>
+    <th>User</th>
+    </tr>
+   </thead>
+   <tbody>
+   @foreach($payments as $payment)
+     <tr>
+     <td>{{$payment->channel}}</td>
+     <td>{{$payment->date}}</td>
+     <td>{{$payment->user}}</td>
+     <td><a href="/payment/{{$payment->id}}" class="btn btn-sm btn-success">View</a></td>
+     </tr>
+   </tbody>
+  </table>
+ </div>
+</div>
+
+show
+<div class="row content-justify-center">
+ <div class="col-sm-6">
+  <table class="table table-bordered">
+  <tr><th></th><td>{{$payment->channel}}</td></tr>
+  <tr><th></th><td>{{$payment->date}}</td></tr>
+  <tr><th></th><td>{{$payment->user}}</td></tr>
+  </table>
+  <div class="btn btn-group">
+  <a href="/payment/{{$payment->id}}/edit" class="btn btn-sm btn-success">Edit</a>
+  <form action="/payment/{{$payment->id}}" method="POST">
+  @csrf
+  <input type="hidden" name="_method" value="DELETE">
+  <button class="btn btn-sm btn-success" type="submit">Delete</button>
+
+  </form>
+  </div>
+ </div>
+</div>
+
+edit
+<div class="row content-justify-center">
+ <div class="col-sm-6">
+  <form action="/payment" method="POST">
+  @csrf
+  @method('PUT')
+   <div class="form-group">
+   <label>Channel</label>
+   <input type="text" name="channel" class="form-control" value="{{$payment->channel}}">
+   <div class="form-group">
+   <label>Date</label>
+   <input type="text" name="date" class="form-control" value="{{$payment->date}}">
+   <div class="form-group">
+   <label>User</label>
+   <select class="form-select" name="user_id">
+   @foreach($users as $user)
+   @if($user->id==$source->user_id)
+   <option value="{{$user->id}}" selected="selected">{{$user->name}}</option>
+   @else
+   <option value="{{$user->id}}">{{$user->name}}</option>
+   @endif
+   @endforeach
+   </select>
+   
+  </form>
+ </div>
+</div>
+
+SUBSCRIPTION
+create
+<div class="row content-justify-center">
+ <div class="col-sm-6">
+  <form action="/subscription" method="POST">
+  @csrf
+   <div class="form-group">
+   <label>Package</label>
+   <input type="text" name="channel" class="form-control">
+   <div class="form-group">
+   <label>Date</label>
+   <input type="text" name="date" class="form-control">
+   <div class="form-group">
+   <label>Expiry Date</label>
+   <input type="text" name="expiry_date" class="form-control">
+   <div class="form-group">
+   <div class="form-group">
+   <label>Status</label>
+   <input type="text" name="date" class="form-control">
+   <div class="form-group">
+   <label>Amount</label>
+   <input type="text" name="date" class="form-control">
+   <label>User</label>
+   <select class="form-select" name="user_id">
+   <option value="{{$user->id}}">{{$user->name}}</option>
+   </select>
+   
+  </form>
+ </div>
+</div>
+ 
+index
+<div class="row content-justify-center">
+ <div class="col-sm-6">
+  <a href="/payment/create" class="btn btn-sm btn-success">Create</a>
+  <table="table table-bordered">
+   <thead>
+    <tr>
+    <th>Package</th>
+    <th>Date</th>
+    <th>Expiry Date</th>
+    <th>Status</th>
+    <th>Amount</th>
+    <th>User</th>
+
+    </tr>
+   </thead>
+   <tbody>
+   @foreach($subscriptions as $subscription)
+     <tr>
+     <td>{{$subscription->package}}</td>
+     <td>{{$subscription->date}}/td>
+     <td>{{$subscription->status}}/td>
+     <td>{{$subscription->amount}}/td>
+     <td>{{$subscription->user}}/td>
+
+
+     <td><a href="/subscription/{{$subscription->id}}" class="btn btn-sm btn-success">View</a></td>
+     </tr>
+   </tbody>
+  </table>
+ </div>
+</div>
+
+show
+<div class="row content-justify-center">
+ <div class="col-sm-6">
+  <table class="table table-bordered">
+  <tr><th></th><td>{{$subscription->package}}</td></tr>
+  <tr><th></th><td>{{$subscription->date}}</td></tr>
+  <tr><th></th><td>{{$subscription->status}}</td></tr>
+  <tr><th></th><td>{{$subscription->amount}}</td></tr>
+  <tr><th></th><td>{{$subscription->user}}</td></tr>
+
+  </table>
+  <div class="btn btn-group">
+  <a href="/subscription/{{$subscription->id}}/edit" class="btn btn-sm btn-success">Edit</a>
+  <form action="/subscription/{{$subscription->id}}" method="POST">
+  @csrf
+  <input type="hidden" name="_method" value="DELETE">
+  <button class="btn btn-sm btn-success" type="submit">Delete</button>
+
+  </form>
+  </div>
+ </div>
+</div>
+
+edit
+<div class="row content-justify-center">
+ <div class="col-sm-6">
+  <form action="/subscription" method="POST">
+  @csrf
+  @method('PUT')
+   <div class="form-group">
+   <label>Package</label>
+   <input type="text" name="channel" class="form-control" value="{{$subscription->package}}">
+   <div class="form-group">
+   <label>Date</label>
+   <input type="text" name="date" class="form-control" value="{{$subscription->date}}">
+   <div class="form-group">
+   <label>Status</label>
+   <input type="text" name="date" class="form-control" value="{{$subscription->status}}">
+   <div class="form-group">
+   <label>Amount</label>
+   <input type="text" name="date" class="form-control" value="{{$subscription->amount}}">
+   <div class="form-group">
+   <label>User</label>
+   <select class="form-select" name="user_id">
+   @foreach($users as $user)
+   @if($user->id==$source->user_id)
+   <option value="{{$user->id}}" selected="selected">{{$user->name}}</option>
+   @else
+   <option value="{{$user->id}}">{{$user->name}}</option>
+   @endif
+   @endforeach
+   </select>
+
+   CONTACT
+   create
+   <div class="row content-justify-center">
+ <div class="col-sm-6">
+  <form action="/subscription" method="POST">
+  @csrf
+   <div class="form-group">
+   <label>Contact</label>
+   <input type="text" name="contact" class="form-control">
+  
+   <div class="form-group">
+   <label>Type</label>
+   <select name="type" class="form-select">
+   <option>Phone</option>
+   <option>Email</option>
+   <option>Linked-In</option>
+   <option>Other</option>
+
+   <label>Source</label>
+   <select class="form-select" name="source_id">
+   <option value="{{$source->id}}">{{$source->name}}</option>
+   </select>
+   
+  </form>
+ </div>
+</div>
+
+index
+<div class="row content-justify-center">
+ <div class="col-sm-6">
+  <a href="/contact/create" class="btn btn-sm btn-success">Create</a>
+  <table="table table-bordered">
+   <thead>
+    <tr>
+    <th>Contact</th>
+    <th>Type</th>
+    <th>Source</th>
+    
+    </tr>
+   </thead>
+   <tbody>
+   @foreach($contacts as $contact)
+     <tr>
+     <td>{{$contact->contact}}</td>
+     <td>{{$contact->type}}/td>
+     <td>{{$contact->source}}/td>
+ 
+
+     <td><a href="/contact/{{$contact->id}}" class="btn btn-sm btn-success">View</a></td>
+     </tr>
+   </tbody>
+  </table>
+ </div>
+</div>
+
+show
+<div class="row content-justify-center">
+ <div class="col-sm-6">
+  <table class="table table-bordered">
+  <tr><th></th><td>{{$contact->contact}}</td></tr>
+  <tr><th></th><td>{{$contact->type}}</td></tr>
+  <tr><th></th><td>{{$contact->source}}</td></tr>
+
+  </table>
+  <div class="btn btn-group">
+  <a href="/contact/{{$contact->id}}/edit" class="btn btn-sm btn-success">Edit</a>
+  <form action="/contact/{{$contact->id}}" method="POST">
+  @csrf
+  <input type="hidden" name="_method" value="DELETE">
+  <button class="btn btn-sm btn-success" type="submit">Delete</button>
+
+  </form>
+  </div>
+ </div>
+</div>
+
+edit
+<div class="row content-justify-center">
+ <div class="col-sm-6">
+  <form action="/contact" method="POST">
+  @csrf
+  @method('PUT')
+   <div class="form-group">
+   <label>Contact</label>
+   <input type="text" name="contact" class="form-control" value="{{$contact->contact}}">
+   <div class="form-group">
+   <label>Type</label>
+   <select name="type" class="form-select" value="{{$contact->type}}>
+   <option>Phone</option>
+   <option>Email</option>
+   <option>Linked-In</option>
+   <option>Other</option>
+
+   
+   <label>Source</label>
+   <select class="form-select" name="user_id">
+   @foreach($source as $source)
+   @if($source->id==$contact->source_id)
+   <option value="{{$source->id}}" selected="selected">{{$source->name}}</option>
+   @else
+   <option value="{{$source->id}}">{{$source->name}}</option>
+   @endif
+   @endforeach
+   </select>
+
+   FIELDS
+   create
+   <div class="row content-justify-center">
+ <div class="col-sm-6">
+  <form action="/field" method="POST">
+  @csrf
+   <div class="form-group">
+   <label>Name</label>
+   <input type="text" name="name" class="form-control">
+  
+   <div class="form-group">
+   <label>Description</label>
+   <textarea name="description" class="form-control" row="6">Description</textarea>
+   
+
+   <label>Status</label>
+   <select class="form-select" name="source_id">
+   <option value="Active">Active</option>
+   <option value="Inactive">Inactive</option>
+   </select>
+   
+  </form>
+ </div>
+</div>
+
+index
+<div class="row content-justify-center">
+ <div class="col-sm-6">
+  <a href="/field/create" class="btn btn-sm btn-success">Create</a>
+  <table="table table-bordered">
+   <thead>
+    <tr>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Status</th>
+    
+    </tr>
+   </thead>
+   <tbody>
+   @foreach($fields as $field)
+     <tr>
+     <td>{{$field->name}}</td>
+     <td>{{$field->description}}/td>
+     <td>{{$field->status}}/td>
+ 
+
+     <td><a href="/field/{{$field->id}}" class="btn btn-sm btn-success">View</a></td>
+     </tr>
+   </tbody>
+  </table>
+ </div>
+</div>
+
+show
+<div class="row content-justify-center">
+ <div class="col-sm-6">
+  <table class="table table-bordered">
+  <tr><th></th><td>{{$field->name}}</td></tr>
+  <tr><th></th><td>{{$field->description}}</td></tr>
+  <tr><th></th><td>{{$field->status}}</td></tr>
+
+  </table>
+  <div class="btn btn-group">
+  <a href="/field/{{$field->id}}/edit" class="btn btn-sm btn-success">Edit</a>
+  <form action="/field/{{$field->id}}" method="POST">
+  @csrf
+  <input type="hidden" name="_method" value="DELETE">
+  <button class="btn btn-sm btn-success" type="submit">Delete</button>
+
+  </form>
+  </div>
+ </div>
+</div>
+
+edit
+<div class="row content-justify-center">
+ <div class="col-sm-6">
+  <form action="/field" method="POST">
+  @csrf
+  @method('PUT')
+   <div class="form-group">
+   <label>Name</label>
+   <input type="text" name="contact" class="form-control" value="{{$contact->contact}}">
+   <div class="form-group">
+   <label>Description</label>
+   <textarea name="description" class="form-control" row="6">Description</textarea>
+   
+
+   
+   <label>Status</label>
+    <label>Status</label>
+   <select class="form-select" name="source_id" value="{{$field->status}}">
+   <option value="Active">Active</option>
+   <option value="Inactive">Inactive</option>
+   </select>
+
+   SOURCEFIELD
+   create
+    <div class="row content-justify-center">
+ <div class="col-sm-6">
+  <form action="/sourceField" method="POST">
+   <div class="form-group">
+   <label>Source</label>
+   <select class="form-select" name="source_id">
+   @foreach($sources as $source)
+   <option value="{{$source->id}}">{{$source->name}}</option>
+   </select>
+  
+    <div class="form-group">
+   <label>field</label>
+   <select class="form-select" name="field_id">
+   @foreach($fields as $field)
+   <option value="{{$field->id}}">{{$field->name}}</option>
+   </select>
+  
+   
+  </form>
+ </div>
+</div>
+
+
+index
+<div class="row content-justify-center">
+ <div class="col-sm-6">
+  <a href="/sourceField/create" class="btn btn-sm btn-success">Create</a>
+  <table="table table-bordered">
+   <thead>
+    <tr>
+    <th>Source</th>
+    <th>Field</th>
+    
+    </tr>
+   </thead>
+   <tbody>
+   @foreach($sourceFields as $sourceField)
+     <tr>
+     <td>{{$sourceField->source}}</td>
+     <td>{{$sourceField->field}}/td> 
+
+     <td><a href="/sourceField/{{$sourceField->id}}" class="btn btn-sm btn-success">View</a></td>
+     </tr>
+   </tbody>
+  </table>
+ </div>
+</div>
+
+show
+<div class="row content-justify-center">
+ <div class="col-sm-6">
+  <table class="table table-bordered">
+  <tr><th></th><td>{{$sourceField->source}}</td></tr>
+  <tr><th></th><td>{{$sourceField->field}}</td></tr>
+
+  </table>
+  <div class="btn btn-group">
+  <a href="/sourceField/{{$sourceField->id}}/edit" class="btn btn-sm btn-success">Edit</a>
+  <form action="/sourceField/{{$sourceField->id}}" method="POST">
+  <input type="hidden" name="_method" value="DELETE">
+  <button class="btn btn-sm btn-success" type="submit">Delete</button>
+
+  </form>
+  </div>
+ </div>
+</div>
+
+edit
+<div class="row content-justify-center">
+ <div class="col-sm-6">
+  <form action="/field" method="POST">
+  @csrf
+  @method('PUT')
+   <div class="form-group">
+   <label>Source</label>
+   <select class="form-select" name="source_id" >
+   @foreach($sourcefields as $sourcefield)
+   @if($source->id==$sourcefield->source_id)
+   <option value="{{$sourcefield->id}}" selected="selected">{{$sourcefield->field}}</option>
+   @else
+   <option value="{{$sourcefield->id}}">{{$sourcefield->field}}</option>
+   @endif
+   @endforeach
+   </select>
+
+
+   
+    <label>Field</label>
+   <select class="form-select" name="field_id" >
+   @foreach($sourcefields as $sourcefield)
+   @if($field->id==$sourcefield->field_id)
+   <option value="{{$sourcefield->id}}" selected="selected">{{$sourcefield->field}}</option>
+   @else
+   <option value="{{$sourcefield->id}}">{{$sourcefield->field}}</option>
+   @endif
+   @endforeach
+   </select>

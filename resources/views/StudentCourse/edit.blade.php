@@ -1,3 +1,5 @@
+@extends('layouts.app')
+@section('content')
 <div class="row content-justify">
 	<div class="col-sm-6">
 		<form action="/studentcourse/{{$studentcourse->id}}" method="POST">
@@ -28,3 +30,4 @@
 			</div>
 	</div>
 </div>
+@endsection

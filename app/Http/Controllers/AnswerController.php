@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Answer;
 use App\Models\Question;
 use App\Models\Exam;
+use App\Http\Resources\AnswerResource;
+
 
 use Illuminate\Http\Request;
 
@@ -17,14 +19,16 @@ class AnswerController extends Controller
      */
     public function index()
     {
-        //
 
-        
-        $questions=Question::all();
-        $exams=Exam::all();
-        $answers= Answer::orderBy('created_at','desc')->paginate(2);
-        return view('answer.index',compact('answers','questions','exams'))
-        ->with('i',(request()->input('page', 1) - 1) * 5);
+
+        // $this->authorize('viewAny', Answer::class);
+        // $questions=Question::all();
+        // $exams=Exam::all();
+        // $answers= Answer::orderBy('created_at','desc')->paginate(2);
+        // return view('answer.index',compact('answers','questions','exams'))
+        // ->with('i',(request()->input('page', 1) - 1) * 5);
+        // return response(['answers'=>AnswerResource::collection($answers),'message'=>'Retrieved successfully']);
+
     }
 
     /**
@@ -34,8 +38,9 @@ class AnswerController extends Controller
      */
     public function create()
     {
-        //
-        return view('AnswerController.create', compact('exam'));
+        // //
+        // $this->authorize('create',Answer::class);
+        // return view('AnswerController.create', compact('exam'));
     }
 
     /**
@@ -48,7 +53,7 @@ class AnswerController extends Controller
     {
         //
         
-
+        $this->authorize('create', Answer::class);
         $input=$request->all();
         $answer=Answer::create($input);
         return redirect('/answer/'.$answer->id);
@@ -63,8 +68,9 @@ class AnswerController extends Controller
     public function show(Answer $answer)
     {
         //
-        $answers=Answer::all();
-        return view('answer.show', compact('answer'), compact('exam'));
+        // $this->authorize('view' ,Answer::class);
+        // $answers=Answer::all();
+        // return view('answer.show', compact('answer'), compact('exam'));
     }
 
     /**
@@ -76,8 +82,9 @@ class AnswerController extends Controller
     public function edit(Answer $answer)
     {
         //
-        $answer=Answer::all();
-        return view('AnswerController.edit',compact('answer'), compact('exam'));
+        // $this->authorize('update', Answer::class);
+        // $answer=Answer::all();
+        // return view('AnswerController.edit',compact('answer'), compact('exam'));
     }
 
     /**
@@ -90,10 +97,10 @@ class AnswerController extends Controller
     public function update(Request $request, Answer $answer)
     {
         //
-        $answer=Answer::find($id);
-        $input=$request->all();
-        $answer->update($input);
-        return redirect('answer/'.$answer->id);
+        // $this->authorize('update', Answer::class);
+        // $input=$request->all();
+        // $answer->update($input);
+        // return redirect('answer/'.$answer->id);
     }
 
     /**
@@ -105,7 +112,8 @@ class AnswerController extends Controller
     public function destroy(Answer $answer)
     {
         //
-        $answer->delete();
-        return redirect('/answer');
+        // $this->authorize('delete', Answer::class);
+        // $answer->delete();
+        // return redirect('/answer');
     }
 }

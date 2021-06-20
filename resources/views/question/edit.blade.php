@@ -2,7 +2,7 @@
 @section('content')
 <div class="row content-justify-center">
 	<div class="col-sm-6">
-		<form action="/question/{{$question->id}}" mehod="POST">
+		<form action="/question/{{$question->id}}" method="POST">
 			<input type="hidden" name="_method" value="PUT">
 			<div class="form-group">
 				<label>student</label>
@@ -19,14 +19,13 @@
 						<option value="{{$quiz->id}}" selected="selected">{{$quiz->title}}</option>
 						@else
 						<option value="{{$quiz->id}}">{{quiz->title}}</option>
+						<!-- If quiz id is the same as quiz_id in the question, it's selected. 
+						If not then it's not
+						selected. It will still pull the quiz->title. -->
 						@endif
 						@endforeach
-					</select>
-					
-				</div>
-				
-
-				
+					</select>	
+				</div>	
 			</div>
 		</form>
 		
