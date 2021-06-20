@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Course;
 use Illuminate\Http\Request;
+use App\Http\Resources\CourseResource;
+
 
 class CourseController extends Controller
 {
@@ -15,9 +17,10 @@ class CourseController extends Controller
     public function index()
     {
         //
+
         $this->authorize('viewAny', Course::class);
         $courses=Course::all();
-        return view('course.index',compact('courses'));
+        return response(['course'=>CourseResource::collection($courses),'message'=>'Retrieved successfully']);
     }
 
     /**
@@ -50,15 +53,22 @@ class CourseController extends Controller
         }
         // 
         // the image name in $input['image'] must be the same with the image name on the model
+        $validator = Validator::make($input, [
+
+            'name'=>'required',
+            'description'=>'required',
+            'image'=>'required',
+        ]);
+                if($validator->fails()){
+                    return response(['error'=> $validator->errors(), 'Validation Error']);
+                }
         $course=Course::create($input);
         return redirect('/course/'.$course->id);
        
 
    
 }
-
-
-   
+// 
 
     /**
      * Display the specified resource.

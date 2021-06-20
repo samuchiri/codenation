@@ -6,6 +6,7 @@ use App\Models\Role;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use App\Http\Resources\RoleResource;
 
 class RoleController extends Controller
 {
@@ -16,7 +17,10 @@ class RoleController extends Controller
      */
     public function index()
     {
+
         //
+
+        return response(['role'=>RoleResource::collection($role), 'message'=>'Retrieved successfully']);
     }
 
     /**

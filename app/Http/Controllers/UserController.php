@@ -48,11 +48,19 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-       
         $input=$request->all();
         $input['password']=Hash::make($input['password']);
         $user=User::create($input);
         $user->syncPermissions($request->input('permissions'));
+        $validator=Validator::make($input,[
+            'name'=>'required',
+            'email'=>'required',
+            'role_id'=>'required',
+            'password'=>'required',
+        ]);
+                if($validator->fails()){
+                    return response(['error'=>$validator->errors(), 'Validator Error']);
+                }
         return redirect('/user/'.$user->id);
 
     }

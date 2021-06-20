@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\student;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Resources\StudentResource;
 
 class StudentController extends Controller
 {
@@ -15,11 +16,12 @@ class StudentController extends Controller
      */
     public function index()
     {
-        //
+        //        return response(['user' => UserResource::collection($user), 'message' => 'Retrieved successfully']);
+
          $this->authorize('viewAny', Student::class);
         $users=User::all();
         $students =Student::all();
-        return view('student.index', compact('users','students'));
+        return response(['user'=>UserResource::collection($user), 'message'=>'Retrieved successfully']);
     }
 
     /**
@@ -45,11 +47,18 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        $this->authorize('create', Student::class);
-        $input=$request->all();
-        $student->create($input);
-        return redirect('/student'.$student->id);
+        //'id','reg_no','user_id'
+       $input = $request->all(); 
+         $validator = Validator::make($input, [
+               'id'=>'required',
+               'reg_no'=>'required',
+               'user_id'=>'required',
+                ]);
+         if ($validator->fails()) {
+            return response(['error' => $validator->errors(), 'Validation Error']);
+         }
+         $student = Student::create($input);
+         return response()->json($student);
     }
 
     /**

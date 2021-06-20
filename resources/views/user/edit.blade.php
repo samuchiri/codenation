@@ -25,11 +25,11 @@
 			</div>
 			<div class="form-group">
 				<label>Email</label>
-				<input type="email" name="email" class="form-control" value="{{$user->email}}">
+				<input type="text" name="email" class="form-control" value="{{$user->email}}">
 			</div>
 			<div class="form-group">
 				<label>Phone</label>
-				<input type="email" name="phone" class="form-control" value="{{$user->phone}}">
+				<input type="text" name="phone" class="form-control" value="{{$user->phone}}">
 			</div>
 			<div class="form-group">
 				<label>Password</label>

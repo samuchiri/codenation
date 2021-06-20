@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Fee;
 use Illuminate\Http\Request;
+use App\Http\Resource\FeeResource;
 
-class FeeController extends Controller
-{
+class FeeController extends Controller 
+{ 
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +16,10 @@ class FeeController extends Controller
      */
     public function index()
     {
-        //
+        //       
+        return response(['fee'=>FeeResource::collection($fee), 'message'=>'Retrieved successfully']);
+
+
     }
 
     /**
@@ -36,7 +41,19 @@ class FeeController extends Controller
     public function store(Request $request)
     {
         //
+        $validator = Validator::make($input, [
+            'amount'=>'required',
+            'balance'=>'required',
+            'due'=>'required',
+            'status'=>'required',
+            'student_id'=>'required',
+        ]);
+                if($validator->fails()){
+                    return response(['error'=>$validator->errors(), 'Validation Error']);
+                }
+
     }
+    
 
     /**
      * Display the specified resource.

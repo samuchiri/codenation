@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\StudentCourse;
 use App\Models\Course;
 use App\Models\Student;
+use App\Http\Resources\StudentCourseResource;
 use Illuminate\Http\Request;
 
 class StudentCourseController extends Controller
@@ -16,13 +17,15 @@ class StudentCourseController extends Controller
      */
     public function index()
     {
-        //
-        $this->authorize('viewAny' StudentCourse::class);
+        //        return response(['user' => UserResource::collection($user), 'message' => 'Retrieved successfully']);
+
+        $this->authorize('viewAny', StudentCourse::class);
         $courses=Course::all();
           // dd($courses);
         $students=Student::all();
         $studentcourses=StudentCourse::all();
-        return view('StudentCourse.index',compact('courses','students','studentcourses'));
+        return response(['student'=>StudentResource::collection($student),'message'=>'Retrieved successfully']);
+
     }
 
     /**
@@ -33,7 +36,7 @@ class StudentCourseController extends Controller
     public function create()
     {
         //
-        $this->authorize('create' StudentCourse::class);
+        $this->authorize('create', StudentCourse::class);
         $courses=Course::all();
         // dd('hehehee');
         $students=Student::all();
@@ -50,9 +53,16 @@ class StudentCourseController extends Controller
     public function store(Request $request)
     {
         //
-        $this->authorize('create' StudentCourse::class);
+        $this->authorize('create', StudentCourse::class);
         $input=$request->all();
         $StudentCourse->create($input);
+        $validator=Validator::make($input,[
+            'student_id'=>'required',
+            'course_id'=>'required',
+        ]);
+            if($validator->fails()){
+                return response(['error'=>$validator->errors(), 'Validator Error']);
+            }
         return redirect('/StudentCourse'.$studentCourse->id);
     }
 
@@ -65,7 +75,7 @@ class StudentCourseController extends Controller
     public function show(StudentCourse $studentCourse)
     {
         //
-        $this->authorize('view' StudentCourse::class);
+        $this->authorize('view', StudentCourse::class);
         $students=Student::all();
         $courses=Course::all();
         return view('StudentCourse.show',compact('courses','students'));
@@ -80,7 +90,7 @@ class StudentCourseController extends Controller
     public function edit(StudentCourse $studentCourse)
     {
         //
-        $this->authorize('update' StudentCourse::class);
+        $this->authorize('update', StudentCourse::class);
         $courses=Course::all();
         $students=Student::all();
         return view('StudentCourse.edit',compact('courses','students'));
@@ -96,7 +106,7 @@ class StudentCourseController extends Controller
     public function update(Request $request, StudentCourse $studentCourse)
     {
         //
-        $this->authorize('update' StudentCourse::class);
+        $this->authorize('update', StudentCourse::class);
         $input=$request->all();
         $studentcourse->update($input);
         return redirect('/StudentCourse'.$studentcourse->id);
@@ -111,7 +121,7 @@ class StudentCourseController extends Controller
     public function destroy(StudentCourse $studentCourse)
     {
         //
-        $this->authorize('delete' StudentCourse::class);
+        $this->authorize('delete', StudentCourse::class);
         $studentcourse->delete();
         return redirect('/StudentCourse');
     }
