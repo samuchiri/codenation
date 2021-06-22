@@ -6,6 +6,7 @@ use App\Models\Module;
 use App\Models\Course;
 use Illuminate\Http\Request;
 use App\Http\Resources\ModuleResource;
+use Illuminate\Support\Facades\Validator;
 
 class ModuleController extends Controller
 
@@ -18,9 +19,9 @@ class ModuleController extends Controller
     public function index()
     {
         //
-        $this->authorize('viewAny', Module::class);
+        // $this->authorize('viewAny', Module::class);
         $modules=Module::all();
-        return response(['user' => UserResource::collection($user), 'message' => 'Retrieved successfully']);
+        return response(['modules' => ModuleResource::collection($modules), 'message' => 'Retrieved successfully']);
     }
 
     /**
@@ -31,10 +32,7 @@ class ModuleController extends Controller
     public function create()
     {
         //
-        $this->authorize('create', Module::class);
-        $courses=Course::all();
-        $modules=Module::all();
-        return view('module.create',compact('courses','modules'));
+       
     }
 
     /**
@@ -48,8 +46,6 @@ class ModuleController extends Controller
         //'course_id','title','description']
         $this->authorize('create', Module::class);
         $input=$request->all();
-         $module=Module::create($input);
-        return redirect('/module/'.$module->id);
         $validator = Validator::make($input,[
             'course_id' => 'required',
             'title' => 'required',
@@ -59,7 +55,8 @@ class ModuleController extends Controller
                     return response(['error'=>$validator->errors(), 'Validation Error']);
                 }
         $module=Module::create($input);
-        return redirect('/module/'.$module->id);
+        return response()->json($module);
+
     }
 
     /**
@@ -72,8 +69,7 @@ class ModuleController extends Controller
     {
         //
         $this->authorize('view', Module::class);
-        $course=Course::all();
-        return view('module.show', compact('course'));
+         return response()->json($module);
     }
 
     /**
@@ -85,9 +81,7 @@ class ModuleController extends Controller
     public function edit(Module $module)
     {
         //
-        $this->authorize('update', Module::class);
-        $module=Module::all();
-        return view('module.edit', compact('course'));
+        
     }
 
     /**
@@ -100,10 +94,9 @@ class ModuleController extends Controller
     public function update(Request $request, Module $module)
     {
         //
-        $this->authorize('update', Module::class);
-        $input=$request->all();
-        $module->update($input);
-        return redirect('module/'.$module->id);
+        // $this->authorize('update', Module::class);
+        $module->update($request->all());
+        return response()->json($module);
     }
 
     /**
@@ -117,6 +110,7 @@ class ModuleController extends Controller
         //
         $this->authorize('delete', Module::class);
         $module->delete();
-        return redirect('/module');
+        return response(['message'=> 'Deleted']);
+
     }
 }

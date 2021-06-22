@@ -7,10 +7,12 @@ use App\Models\User;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role; 
 use Hash;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
     /**
+
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response

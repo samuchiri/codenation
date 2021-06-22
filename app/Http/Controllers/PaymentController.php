@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Payment;
 use Illuminate\Http\Request;
 use App\Http\Resources\PaymentResource;
+use Illuminate\Support\Facades\Validator;
 
 class PaymentController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +18,7 @@ class PaymentController extends Controller
     public function index()
     {
         //   
-
+        $payment=Payment::all();
         return response (['payment'=>PaymentResource::collection($payment), 'message' =>'Retrieved successfully']);
     }
 
@@ -46,6 +48,7 @@ class PaymentController extends Controller
         if($validator->fails()){
             return response(['error'=>$validator->errors(), 'Validator Error']);
         }
+        return response()->json($payment);
     }
 
     /**
@@ -57,6 +60,7 @@ class PaymentController extends Controller
     public function show(Payment $payment)
     {
         //
+        return response()->json($payment);
     }
 
     /**
@@ -68,6 +72,7 @@ class PaymentController extends Controller
     public function edit(Payment $payment)
     {
         //
+        return response()->json($payment);
     }
 
     /**
@@ -80,6 +85,7 @@ class PaymentController extends Controller
     public function update(Request $request, Payment $payment)
     {
         //
+        return response()->json($payment);
     }
 
     /**
@@ -91,5 +97,6 @@ class PaymentController extends Controller
     public function destroy(Payment $payment)
     {
         //
+        return response(['message'=>'Deleted']);
     }
 }

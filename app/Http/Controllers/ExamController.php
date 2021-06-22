@@ -7,10 +7,12 @@ use App\Models\Quiz;
 use App\Models\Answer;
 use Illuminate\Http\Request;
 use Http\Resources\ExamResource;
+use Illuminate\Support\Facades\Validator;
 
 class ExamController extends Controller
 
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -36,10 +38,10 @@ class ExamController extends Controller
     public function create()
     {
         //
-        $this->authorize('create', Exam::class);
-        $quiz=Quiz::all();
-        $answer=Answer::all();
-        return view('exam.create', compact('quiz'), compact('answer'));
+        // $this->authorize('create', Exam::class);
+        // $quiz=Quiz::all();
+        // $answer=Answer::all();
+        // return view('exam.create', compact('quiz'), compact('answer'));
     }
 
     /**
@@ -68,8 +70,8 @@ class ExamController extends Controller
                 if($validator->fails()){
                     return response(['error'=>$validator->errors(), 'Validation Error']);
                 }
-        return redirect('/exam/'.$exam->id);
-        
+        // return redirect('/exam/'.$exam->id);
+        return response()->json($exam);
     }
   
 
@@ -82,10 +84,11 @@ class ExamController extends Controller
     public function show(Exam $exam)
     {
         //
-        $this->authorize('view', Exam::class);
-        $quiz=Quiz::all();
-        $answer=Answer::all();
-        return view('exam.show', compact('quiz','answer','exam'));
+        // $this->authorize('view', Exam::class);
+        // $quiz=Quiz::all();
+        // $answer=Answer::all();
+        // return view('exam.show', compact('quiz','answer','exam'));
+        return response()->json($exam);
     }
 
     /**
@@ -97,10 +100,11 @@ class ExamController extends Controller
     public function edit(Exam $exam)
     {
         //
-        $this->authorize('update', Exam::class);
-        $quiz=Quiz::all();
-        $answer=Answer::all();
-        return view('exam.edit',compact('quiz','answer'));
+        // $this->authorize('update', Exam::class);
+        // $quiz=Quiz::all();
+        // $answer=Answer::all();
+        // return view('exam.edit',compact('quiz','answer'));
+        return response()->json($exam);
     }
 
     /**
@@ -113,10 +117,11 @@ class ExamController extends Controller
     public function update(Request $request, Exam $exam)
     {
         //
-        $this->authorize('update', Exam::class);
-        $input=$request->all();
-        $exam->update($input);
-        return redirect('exam/'.$exam->id);
+        // $this->authorize('update', Exam::class);
+        // $input=$request->all();
+        // $exam->update($input);
+        // return redirect('exam/'.$exam->id);
+        return response()->json($exam);
     }
 
     /**
@@ -128,8 +133,10 @@ class ExamController extends Controller
     public function destroy(Exam $exam)
     {
         //
-        $this->authorize('delete', Exam::class);
-        $exam->delete();
-        return redirect('/exam');
+        // $this->authorize('delete', Exam::class);
+        // $exam->delete();
+        // return redirect('/exam');
+        return response(['message'=>'Deleted']);
+
     }
 }

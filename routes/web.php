@@ -24,16 +24,5 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::resource('/answer','App\Http\Controllers\AnswerController');
-Route::resource('/course','App\Http\Controllers\CourseController');
-Route::resource('/exam','App\Http\Controllers\ExamController');
-Route::resource('/question','App\Http\Controllers\QuestionController');
-Route::resource('/resource','App\Http\Controllers\ResourceController');
-Route::resource('/module','App\Http\Controllers\ModuleController');
-Route::resource('/page','App\Http\Controllers\PageController');
-Route::resource('/quiz','App\Http\Controllers\QuizController');
-Route::resource('/student','App\Http\Controllers\StudentController');
-Route::resource('/studentCourse','App\Http\Controllers\StudentCourseController');
-Route::resource('/user','App\Http\Controllers\UserController');
-Route::get('/dynamic_pdf','DynamicPDFController@index');
+
 // Route::resource('/dynamic_pdf','App\Http\Controllers\DynamicPDFController');

@@ -17,3 +17,4 @@ class Course extends Model
 }
 // We are in the Course model. Thus, course is "called" course_id in the studentCourse Model. If the relation is hasMany, we use the plural form eg studentCourses
 
+

@@ -7,10 +7,12 @@ use App\Models\Course;
 use App\Models\Student;
 use App\Http\Resources\StudentCourseResource;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class StudentCourseController extends Controller
 {
     /**
+
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response

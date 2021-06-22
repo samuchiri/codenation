@@ -6,7 +6,9 @@ use App\Models\Page;
 use App\Models\Quiz;
 use App\Models\Module;
 use Illuminate\Http\Request;
-use App\Http\Resources\PageResources;
+use App\Http\Resources\PageResource;
+use Illuminate\Support\Facades\Validator;
+
 
 class PageController extends Controller
 {
@@ -18,11 +20,9 @@ class PageController extends Controller
     public function index()
     {
         //
-        $this->authorize('viewAny', Page::class);
-        $modules=Module::all();
-        $quizzes=Quiz::all();
+        // $this->authorize('viewAny', Page::class);
         $pages=Page::all();
-        return response(['user' => UserResource::collection($user), 'message' => 'Retrieved successfully']);
+        return response(['page' => PageResource::collection($pages), 'message' => 'Retrieved successfully']);
     }
 
     /**
@@ -33,10 +33,10 @@ class PageController extends Controller
     public function create()
     {
         //
-        $this->authorize('create', Page::class);
-        $modules=Module::all();
-        $quizzes=Quiz::all();
-        return view('page.create',compact('modules','quizzes'));
+        // $this->authorize('create', Page::class);
+        // $modules=Module::all();
+        // $quizzes=Quiz::all();
+        // return view('page.create',compact('modules','quizzes'));
     }
 
     /**
@@ -47,8 +47,9 @@ class PageController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        $this->authorize('create', Page::class);
+        //        
+
+        // $this->authorize('create', Page::class);
         
         $validator=Validator::make($input,[
             'module_id'=>'required',
@@ -60,10 +61,11 @@ class PageController extends Controller
                 if($validator->fails()){
                     return response(['error'=>$validator->errors(), 'Validator Error']);
          }
-         $input=$request->all();
-        $page=Page::create($input);
-        $module=Module::create($input);        
-        return redirect('/page/'.$page->id);
+         // $input=$request->all();
+        // $page=Page::create($input);
+        // $module=Module::create($input);        
+        // return redirect('/page/'.$page->id);
+         return response()->json($page);
 
 
     /**
@@ -76,11 +78,12 @@ class PageController extends Controller
     public function show(Page $page)
     {
         //
-        $this->authorize('view', Page::class);
-        $modules=Module::all();
-        $quizzes=Quiz::all();
+        // $this->authorize('view', Page::class);
+        // $modules=Module::all();
+        // $quizzes=Quiz::all();
 
-        return view('page.show', compact('modules','quizzes','page'));
+        // return view('page.show', compact('modules','quizzes','page'));
+        return response()->json($page);
     }
 
     /**
@@ -91,11 +94,12 @@ class PageController extends Controller
      */
     public function edit(Page $page)
     {
-        //
-        $this->authorize('update', Page::class);
-        $modules=Module::all();
-        $quiz=Quiz::all();
-        return view('page.edit', compact('modules','quiz','page'));
+        // //
+        // $this->authorize('update', Page::class);
+        // $modules=Module::all();
+        // $quiz=Quiz::all();
+        // return view('page.edit', compact('modules','quiz','page'));
+        return response()->json($page);
     }
 
     /**
@@ -108,10 +112,11 @@ class PageController extends Controller
     public function update(Request $request, Page $page)
     {
         //
-        $this->authorize('update', Page::class);
-        $input=$request->all();
-        $page->update($input);
-        return redirect('page/'.$page->id);
+        // $this->authorize('update', Page::class);
+        // $input=$request->all();
+        // $page->update($input);
+        // return redirect('page/'.$page->id);
+        return response()->json($page);
     }
 
     /**
@@ -123,8 +128,10 @@ class PageController extends Controller
     public function destroy(Page $page)
     {
         //
-        $this->authorize('delete', Page::class);
-        $page->delete();
-        return redirect('/page');
+        // $this->authorize('delete', Page::class);
+    //     $page->delete();
+    //     return redirect('/page');
+        return response(['message'=>'Deleted']);
+    // 
     }
 }

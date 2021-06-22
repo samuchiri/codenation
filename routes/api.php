@@ -14,6 +14,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+Route::resource('/course','App\Http\Controllers\CourseController');
+Route::resource('/exam','App\Http\Controllers\ExamController');
+Route::resource('/module','App\Http\Controllers\ModuleController');
+Route::resource('/page','App\Http\Controllers\PageController');
+Route::resource('/payment','App\Http\Controllers\PaymentController');
+Route::resource('/question','App\Http\Controllers\QuestionController');
+Route::resource('/quiz','App\Http\Controllers\QuizController');
+Route::resource('/resource','App\Http\Controllers\ResourceController');
+Route::resource('/student','App\Http\Controllers\StudentController');
+Route::resource('studentCourse','App\Http\Controllers\StudentCourseController');
