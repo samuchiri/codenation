@@ -6,6 +6,8 @@ use App\Models\Resource;
 use App\Models\Page;
 use Illuminate\Http\Request;
 use App\Http\Resources\ResourceResource;
+use Illuminate\Support\Facades\Validator;
+
 
 class ResourceController extends Controller
 {
@@ -16,11 +18,11 @@ class ResourceController extends Controller
      */
     public function index()
     {
-        //        return response(['user' => UserResource::collection($user), 'message' => 'Retrieved successfully']);
+        //
 
-        $this->authorize('viewAny',Resource::class);
-        $pages=Page::all();
-        $resources = Resource::all();
+        // $this->authorize('viewAny',Resource::class);
+        // $pages=Page::all();
+        $resource= Resource::all();
         return response(['resource'=>ResourceResource::collection($resource), 'message'=>'Retrieved successfully']);
     }
 
@@ -32,10 +34,10 @@ class ResourceController extends Controller
     public function create()
     {
         //
-        $this->authorize('create',Resource::class);
-        $page=Page::all();
-        $resource=Resource::all();
-        return view('resource.create',compact('page','resource'));
+        // $this->authorize('create',Resource::class);
+        // $page=Page::all();
+        // $resource=Resource::all();
+        // return view('resource.create',compact('page','resource'));
     }
 
     /**
@@ -60,7 +62,8 @@ class ResourceController extends Controller
         if($validator->fails()){
             return response(['error'=>$validator->errors(), 'Validator Error']);
         }
-        return redirect('/resource/'.$resource->id);
+        // return redirect('/resource/'.$resource->id);
+        return response()->json($resource);
     }
 
     /**
@@ -72,10 +75,11 @@ class ResourceController extends Controller
     public function show(Resource $resource)
     {
         //
-        $this->authorize('view',Resource::class);
-        $page=Page::all();
-        $resource=Resource::all();
-        return view('resource.show',compact('page','resource'));
+        // $this->authorize('view',Resource::class);
+        // $page=Page::all();
+        // $resource=Resource::all();
+        // return view('resource.show',compact('page','resource'));
+        return response()->json($resource);
     }
 
     /**
@@ -87,9 +91,10 @@ class ResourceController extends Controller
     public function edit(Resource $resource)
     {
         //
-        $this->authorize('update',Resource::class);
-        $page=Page::all();
-        return view('resource.edit',compact('page','resource'));
+        // $this->authorize('update',Resource::class);
+        // $page=Page::all();
+        // return view('resource.edit',compact('page','resource'));
+        return response()->json($resource);
     }
 
     /**
@@ -102,10 +107,11 @@ class ResourceController extends Controller
     public function update(Request $request, Resource $resource)
     {
         //
-        $this->authorize('update',Resource::class);
-        $input=$request->all();
-        $resource->update('$input');
-        return redirect('resource/'.$resource->id);
+        // $this->authorize('update',Resource::class);
+        // $input=$request->all();
+        // $resource->update('$input');
+        // return redirect('resource/'.$resource->id);
+        return response()->json($resource);
     }
 
     /**
@@ -117,8 +123,9 @@ class ResourceController extends Controller
     public function destroy(Resource $resource)
     {
         //
-        $this->authorize('delete',Resource::class);
-        $resource->delete();
-        return redirect('/resource');
+        // $this->authorize('delete',Resource::class);
+        // $resource->delete();
+        // return redirect('/resource');
+        return response(['message'=>'Deleted']);
     }
 }

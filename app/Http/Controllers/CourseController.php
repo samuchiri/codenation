@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Course;
 use Illuminate\Http\Request;
 use App\Http\Resources\CourseResource;
+use Illuminate\Support\Facades\Validator;
+
 
 
 class CourseController extends Controller
@@ -18,7 +20,7 @@ class CourseController extends Controller
     {
         //
 
-        $this->authorize('viewAny', Course::class);
+        // $this->authorize('viewAny', Course::class);
         $courses=Course::all();
         return response(['course'=>CourseResource::collection($courses),'message'=>'Retrieved successfully']);
     }
@@ -31,8 +33,8 @@ class CourseController extends Controller
     public function create()
     {
         //
-        $this->authorize('create', Course::class);
-        return view('course.create');
+        // $this->authorize('create', Course::class);
+        // return view('course.create');
     }
 
     /**
@@ -44,7 +46,7 @@ class CourseController extends Controller
     public function store(Request $request)
     {
         //
-        $this->authorize('create', Course::class);
+        // $this->authorize('create', Course::class);
         $input=$request->all();
          // ADDING IMAGE::::
         $image1=$request->file('image1');
@@ -57,14 +59,13 @@ class CourseController extends Controller
 
             'name'=>'required',
             'description'=>'required',
-            'image'=>'required',
+            
         ]);
                 if($validator->fails()){
                     return response(['error'=> $validator->errors(), 'Validation Error']);
                 }
         $course=Course::create($input);
-        return redirect('/course/'.$course->id);
-       
+        return response()->json($course);
 
    
 }
@@ -80,7 +81,8 @@ class CourseController extends Controller
     {
         //
         // $this->authorize('view' Course::class);
-        return view('course.show',compact('course'));
+        // return view('course.show',compact('course'));
+        return response()->json($course);
     }
 
     /**
@@ -92,8 +94,9 @@ class CourseController extends Controller
     public function edit(Course $course)
     {
         //
-        $this->authorize('update', Course::class);
-        return view('course.edit',compact('course'));
+        // $this->authorize('update', Course::class);
+        // return view('course.edit',compact('course'));
+        return response()->json($course);
     }
 
     /**
@@ -105,11 +108,14 @@ class CourseController extends Controller
      */
     public function update(Request $request, Course $course)
     {
-        //
-        $this->authorize('update', Course::class);
-        $input=$request->all();
-        $course->update($input);
-        return redirect('course/'.$course->id);
+        //        $module->update($request->all());
+
+        // $this->authorize('update', Course::class);
+        // $input=$request->all();
+        // $course->update($input);
+        // return redirect('course/'.$course->id);
+        $course->update($request->all());
+        return response()->json($course);
     }
 
     /**
@@ -121,8 +127,9 @@ class CourseController extends Controller
     public function destroy(Course $course)
     {
         //
-        $this->authorize('delete', Course::class);
-        $course->delete();
-        return redirect('/course');
+        // $this->authorize('delete', Course::class);
+        // $course->delete();
+        // return redirect('/course');
+        return response(['message'=>'Deleted']);
     }
 }

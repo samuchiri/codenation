@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Quiz;
 use Illuminate\Http\Request;
-use App\Http\Resource\QuizResource;
+use App\Http\Resources\QuizResource;
+use Illuminate\Support\Facades\validator;
 
 class QuizController extends Controller
 {
     /**
+
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -16,9 +18,9 @@ class QuizController extends Controller
     public function index()
     {
         // 
-        $this->authorize('viewAny', Quiz::class);
+        // $this->authorize('viewAny', Quiz::class);
         $quizzes=Quiz::all();
-        return response(['quiz'=>QuizResource::collection($quiz), 'message'=>'Retrieved successfully']);
+        return response(['quizzes'=>QuizResource::collection($quizzes), 'message'=>'Retrieved successfully']);
     }
 
     /**
@@ -29,9 +31,9 @@ class QuizController extends Controller
     public function create()
     {
         //
-        $this->authorize('create', Quiz::class);
-        $quizzes=Quiz::all();
-        return view('quiz.create',compact('quizzes'));
+        // $this->authorize('create', Quiz::class);
+        // $quizzes=Quiz::all();
+        // return view('quiz.create',compact('quizzes'));
     }
 
     /**
@@ -57,7 +59,8 @@ class QuizController extends Controller
         if($validator->fails()){
             return response(['error'=>$validator->errors(), 'Validator Error']);
         }
-        return redirect('/quiz/'.$quiz->id);
+        // return redirect('/quiz/'.$quiz->id);
+        return response()->json($quiz);
     }
 
     /**
@@ -69,8 +72,9 @@ class QuizController extends Controller
     public function show(Quiz $quiz)
     {
         //
-        $this->authorize('view', Quiz::class);
-        return view('quiz.show');
+        // $this->authorize('view', Quiz::class);
+        // return view('quiz.show');
+        return response()->json($quiz);
     }
 
     /**
@@ -82,8 +86,9 @@ class QuizController extends Controller
     public function edit(Quiz $quiz)
     {
         //
-        $this->authorize('update', Quiz::class);
-        return view('quiz.edit');
+        // $this->authorize('update', Quiz::class);
+        // return view('quiz.edit');
+        return response()->json($quiz);
     }
 
     /**
@@ -96,10 +101,11 @@ class QuizController extends Controller
     public function update(Request $request, Quiz $quiz)
     {
         //
-        $this->authorize('update', Quiz::class);
-        $input=$request->all();
-        $quiz->update($input);
-        return redirect('quiz/'.$quiz->id);
+        // $this->authorize('update', Quiz::class);
+        // $input=$request->all();
+        // $quiz->update($input);
+        // return redirect('quiz/'.$quiz->id);
+        return response()->json($quiz);
     }
 
     /**
@@ -111,8 +117,9 @@ class QuizController extends Controller
     public function destroy(Quiz $quiz)
     {
         //
-        $this->authorize('delete', Quiz::class);
-        $quiz->delete();
-        return redirect('/quiz');
+        // $this->authorize('delete', Quiz::class);
+        // $quiz->delete();
+        // return redirect('/quiz');
+        return response(['message'=>'Deleted']);
     }
 }

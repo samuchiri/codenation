@@ -6,6 +6,7 @@ use App\Models\Question;
 use App\Models\Quiz;
 use Illuminate\Http\Request;
 use App\Http\Resources\QuestionResource;
+use Illuminate\Support\Facades\Validator;
 
 class QuestionController extends Controller
 {
@@ -17,9 +18,9 @@ class QuestionController extends Controller
     public function index()
     {
         //       
-        $this->authorize('viewAny', Question::class);
-        $questions=Question::all();
-        $quizzes=Quiz::all();
+        // $this->authorize('viewAny', Question::class);
+        // $questions=Question::all();
+        $question=Question::all();
         return response(['question'=>QuestionResource::collection($question), 'message'=>'Retrieved successfully']);
     }
 
@@ -31,10 +32,10 @@ class QuestionController extends Controller
     public function create()
     {
         //
-        $this->authorize('create', Question::class);
-        // dd('here');
-         $quizzes=Quiz::all();
-        return view('question.create',compact('quizzes'));
+        // $this->authorize('create', Question::class);
+        // // dd('here');
+        //  $quizzes=Quiz::all();
+        // return view('question.create',compact('quizzes'));
     }
 
     /**
@@ -46,7 +47,7 @@ class QuestionController extends Controller
     public function store(Request $request)
     {
         //quiz_id','student','type','answer
-        $this->authorize('create', Question::class);
+        // $this->authorize('create', Question::class);
         $input=$request->all();
         $question=Question::create($input);
         $validator=Validator::make($input,[
@@ -58,7 +59,8 @@ class QuestionController extends Controller
                 if($validator->fails()){
                     return response(['error'=>$validator->errors(), 'Validator Error']);
                 }
-        return redirect('/questions'.$questions->id);
+        // return redirect('/questions'.$questions->id);
+                return response()->json($question);
     }
 
     /**
@@ -70,8 +72,9 @@ class QuestionController extends Controller
     public function show(Question $question)
     {
         //
-        $this->authorize('view', Question::class);
-        return view('question.show');
+        // $this->authorize('view', Question::class);
+        // return view('question.show');
+        return response()->json($question);
     }
 
     /**
@@ -83,8 +86,9 @@ class QuestionController extends Controller
     public function edit(Question $question)
     {
         //
-        $this->authorize('update', Question::class);
-        return view('question.edit');
+        // $this->authorize('update', Question::class);
+        // return view('question.edit');
+        return response()->json($question);
     }
 
     /**
@@ -97,9 +101,10 @@ class QuestionController extends Controller
     public function update(Request $request, Question $question)
     {
         //
-        $this->authorize('update', Question::class);
-        $input=$request->all();
-        $question->update($input);
+        // $this->authorize('update', Question::class);
+        // $input=$request->all();
+        // $question->update($input);
+        return response()->json($question);
     }
 
     /**
@@ -111,8 +116,9 @@ class QuestionController extends Controller
     public function destroy(Question $question)
     {
         //
-        $this->authorize('delete', Question::class);
-        $question->delete();
-        return redirect('/question');
-    }
+        // $this->authorize('delete', Question::class);
+        // $question->delete();
+        // return redirect('/question');
+        return response(['message'=>'Deleted']);    
+        }
 }

@@ -6,6 +6,7 @@ use App\Models\student;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Resources\StudentResource;
+use Illuminate\Support\Facades\Validator;
 
 class StudentController extends Controller
 {
@@ -18,10 +19,10 @@ class StudentController extends Controller
     {
         //        return response(['user' => UserResource::collection($user), 'message' => 'Retrieved successfully']);
 
-         $this->authorize('viewAny', Student::class);
-        $users=User::all();
-        $students =Student::all();
-        return response(['user'=>UserResource::collection($user), 'message'=>'Retrieved successfully']);
+        //  $this->authorize('viewAny', Student::class);
+        // $users=User::all();
+        $student =Student::all();
+        return response(['student'=>StudentResource::collection($student), 'message'=>'Retrieved successfully']);
     }
 
     /**
@@ -32,11 +33,7 @@ class StudentController extends Controller
     public function create()
     {
         //
-        $this->authorize('create', Student::class);
        
-        $users=User::all();
-        $student =Student::all();
-        return view('student.create',compact('users','student'));
     }
 
     /**
@@ -70,9 +67,8 @@ class StudentController extends Controller
     public function show(student $student)
     {
         //
-        $this->authorize('view', Student::class);
-        $user=User::all();
-        return view('student.show', compact('user'));
+        // $this->authorize('view', Student::class);
+       return response()->json($student);
     }
 
     /**
@@ -84,9 +80,10 @@ class StudentController extends Controller
     public function edit(student $student)
     {
         //
-        $this->authorize('update', Student::class);
-        $user=User::all();
-        return view('student.edit', compact('user'));
+        // $this->authorize('update', Student::class);
+        // $user=User::all();
+        // return view('student.edit', compact('user'));
+        return response()->json($student);
     }
 
     /**
@@ -99,10 +96,11 @@ class StudentController extends Controller
     public function update(Request $request, student $student)
     {
         //
-        $this->authorize('update', Student::class);
-        $input=$request->all();
-        $student->update($input);
-        return redirect('/student'.$student->id);
+        // $this->authorize('update', Student::class);
+        // $input=$request->all();
+        // $student->update($input);
+        // return redirect('/student'.$student->id);
+        return response()->json($student);
     }
 
     /**
@@ -114,8 +112,10 @@ class StudentController extends Controller
     public function destroy(student $student)
     {
         //
-        $this->authorize('delete', Student::class);
-        $student->delete();
-        return redirect('/student');
-    }
+        // $this->authorize('delete', Student::class);
+        // $student->delete();
+        // return redirect('/student');
+        return response(['message'=>'Deleted']);   
+        }
 }
+
